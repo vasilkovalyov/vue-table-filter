@@ -1,12 +1,19 @@
 <template>
   <v-app>
-    <v-main> </v-main>
+    <v-main>
+      <table-currencies />
+    </v-main>
   </v-app>
 </template>
 
 <script>
+import TableCurrencies from './components/TableCurrencies';
+
 export default {
   name: 'App',
-  components: {},
+
+  components: {
+    TableCurrencies,
+  },
 };
 </script>

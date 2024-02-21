@@ -6,14 +6,6 @@
   </v-app>
 </template>
 
-<script>
-import TableCurrencies from './components/TableCurrencies';
-
-export default {
-  name: 'App',
-
-  components: {
-    TableCurrencies,
-  },
-};
+<script setup>
+import TableCurrencies from "./components/TableCurrencies";
 </script>

@@ -1,37 +1,37 @@
-import { apiLoadCurrencies } from '../api/loadCurrencies';
+import { apiLoadCurrencies } from "../api/loadCurrencies";
 
 export default {
   state: {
     headers: [
       {
-        text: 'Currency',
-        align: 'start',
+        title: "Currency",
+        align: "start",
         sortable: false,
-        value: 'txt',
+        value: "txt",
       },
       {
-        text: 'Code',
-        align: 'start',
+        title: "Code",
+        align: "start",
         sortable: false,
-        value: 'cc',
+        value: "cc",
       },
       {
-        text: 'Date',
-        align: 'start',
+        title: "Date",
+        align: "start",
         sortable: true,
-        value: 'exchangedate',
+        value: "exchangedate",
       },
       {
-        text: 'Rate',
-        align: 'start',
+        title: "Rate",
+        align: "start",
         sortable: true,
-        value: 'rate',
+        value: "rate",
       },
       {
-        text: 'R030',
-        align: 'start',
+        title: "R030",
+        align: "start",
         sortable: true,
-        value: 'r030',
+        value: "r030",
       },
     ],
     currencies: [],
@@ -49,13 +49,13 @@ export default {
     loadCurrencies(store, date) {
       apiLoadCurrencies(date)
         .then((response) => {
-          store.commit('setCurrencies', response);
+          store.commit("setCurrencies", response);
         })
         .catch(() => {
-          store.commit('setCurrencies', []);
+          store.commit("setCurrencies", []);
         })
         .finally(() => {
-          store.commit('setLoading', false);
+          store.commit("setLoading", false);
         });
     },
   },

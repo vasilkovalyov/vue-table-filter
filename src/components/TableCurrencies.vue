@@ -4,15 +4,14 @@
     <date-picker @onChangeDate="onChangeDate" />
     <v-data-table
       :loading="getLoading"
-      loading-text="Loading... Please wait"
       :headers="getHeaders"
+      :page="page"
+      loading-text="Loading... Please wait"
       :items="getCurrencies"
-      :page.sync="page"
       :items-per-page="itemsPerPage"
-      hide-default-footer
-      class="elevation-1"
-      @page-count="pageCount = $event"
-    ></v-data-table>
+    >
+      <template #bottom></template>
+    </v-data-table>
     <v-pagination
       v-if="!!getPageCounts"
       v-model="page"
@@ -21,39 +20,33 @@
   </v-container>
 </template>
 
-<script>
-import { mapActions, mapGetters } from 'vuex';
-import DatePicker from './DatePicker.vue';
+<script setup>
+import { ref, computed, onMounted } from "vue";
+import { useStore } from "vuex";
+import DatePicker from "./DatePicker";
 
-export default {
-  name: 'TableCurrencies',
-  components: {
-    DatePicker,
-  },
-  mounted() {
-    this.loadCurrencies();
-  },
-  data: () => ({
-    page: 1,
-    itemsPerPage: 10,
-  }),
-  props: {
-    headers: Array,
-    currencies: Array,
-  },
-  methods: {
-    ...mapActions(['loadCurrencies']),
-    onChangeDate(date) {
-      this.loadCurrencies(date);
-    },
-  },
-  computed: {
-    ...mapGetters(['getHeaders', 'getCurrencies', 'getLoading']),
-    getPageCounts() {
-      return Math.ceil(this.getCurrencies.length / this.itemsPerPage);
-    },
-  },
-};
+const store = useStore();
+
+const page = ref(1);
+const itemsPerPage = 10;
+
+const getHeaders = store.getters.getHeaders;
+
+const getCurrencies = computed(() => {
+  return store.getters.getCurrencies;
+});
+const getLoading = computed(() => {
+  return store.getters.getLoading;
+});
+const getPageCounts = computed(() => {
+  return Math.ceil(getCurrencies.value.length / itemsPerPage);
+});
+
+onMounted(() => {
+  store.dispatch("loadCurrencies");
+});
+
+function onChangeDate(date) {
+  store.dispatch("loadCurrencies", date);
+}
 </script>
-
-<style></style>
